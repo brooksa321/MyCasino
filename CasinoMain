@@ -1,0 +1,62 @@
+//CasinoMain.cpp
+//Program to test Card class
+//Programmer: Malcolm Milton
+//Date: 4/14/15
+
+#include "Card.h"
+#include "Poker.h"
+#include "BlackJack.h"
+#include <cstdio>
+#include <iostream>
+#include <windows.h>   // WinApi header
+
+using namespace std;
+
+int menu(); //Function to ask user what they would like to do with the cards and returns thier answer in number form
+
+int main()
+{
+	int choice = 1; //Variable that will save the user's choice of what to do with the cards
+	int number; //Variable that will be used for saving how many cards the user wants to print out
+	int start = 0; //Variable to be used for specifing which index in the array to start at for printing cards
+	int money; //The user's money to share between Poker and Black Jack
+	Card *Deck = new Card(); //Creates a new instance of the card Card class
+	Poker *pokerGame = new Poker();
+	BlackJack *blackJackGame = new BlackJack();
+
+	cout << endl << "WELCOME TO MALCOLM'S CASINO! " << endl << endl;
+	cout << "ENTER AN AMOUNT OF MONEY TO PLAY" << endl << "$";
+	cin >> money; //Saves the user's answer
+	money = pokerGame->errorCheckInt(money); //Uses the Poker class function to check if the user entered a number more than zero
+	cout << endl;
+
+	while(choice != 0) //Stops when the user enters 4 to quit
+	{
+		choice = menu(); //Calls the function to ask the user what to do with the deck of cards and saves the answer
+		
+		if(choice == 1) //If the user wants to play Poker
+			money = pokerGame->playPoker(money);
+		else if(choice == 2) //If the user wants to play Black Jack
+			money = blackJackGame->playBlackJack(money);
+		else if(choice == 0) //If the user wants to quit the program
+			cout << "THANKYOU FOR PLAYING AT MALCOLM'S CASINO!" << endl << endl;
+	}
+	
+	return 0;
+}
+
+int menu() //Function to ask user what they would like to do with the cards and returns thier answer in number form
+{
+        int choice; //Variable that will save the user's answer
+
+        cout << "WOULD YOU LIKE TO PLAY POKER(1) OR BLACKJACK(2)?" << endl << "ENTER 0 TO QUIT" << endl << "> ";
+        cin >> choice; //Saves the user's answer
+
+        while(choice < 0 || choice > 3) //Loops until the user chooses a number 1-5
+        {
+                cout << "Please choose a valid choice: ";
+                cin >> choice; //Saves the user's answer
+        }
+        cout << endl;
+        return choice; //Returns the user's answer
+}
